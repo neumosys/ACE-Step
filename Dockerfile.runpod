@@ -30,14 +30,22 @@ RUN useradd -m -u 1001 appuser
 # Set working directory
 WORKDIR /app
 
-# Clone the repository (or copy local files if building from local)
-# We will copy local files to ensure we have the latest changes including handler.py
 COPY . /app
 
-# Install specific PyTorch version compatible with CUDA 12.1
-RUN pip3 install --no-cache-dir --upgrade pip && \
-    pip3 install --no-cache-dir hf_transfer peft runpod boto3 && \
-    pip3 install --no-cache-dir -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu121
+# UPGRADE PIP
+RUN pip3 install --no-cache-dir --upgrade pip
+
+# 1. FORCE INSTALL CUDA TORCH STACK FIRST
+# We use --index-url (not extra) to ensure we ONLY get the CUDA 12.1 wheels.
+RUN pip3 install --no-cache-dir torch torchaudio torchvision --index-url https://download.pytorch.org/whl/cu121
+
+# 2. INSTALL UTILS
+RUN pip3 install --no-cache-dir hf_transfer peft runpod boto3
+
+# 3. INSTALL REMAINING REQUIREMENTS
+# Important: Ensure 'torch', 'torchaudio', and 'torchvision' are REMOVED from requirements.txt
+# or this step might try to downgrade/overwrite them.
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Install the package itself
 RUN pip3 install --no-cache-dir .
