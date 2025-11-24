@@ -29,9 +29,8 @@ docker push your-username/ace-step-worker:latest
 2. Click "New Endpoint".
 3. Enter the image name: `your-username/ace-step-worker:latest`.
 4. Configure the endpoint:
-   - **Container Disk**: Ensure it's large enough (e.g., 20GB+ if downloading models).
-   - **Volume**: It is highly recommended to use a Network Volume mounted at `/app/checkpoints` to persist model weights and avoid downloading them on every cold start.
-     - Mount Path: `/app/checkpoints`
+   - **Container Disk**: Ensure it's large enough (e.g., 20GB+).
+   - **Volume**: (Optional) The Docker image now includes the models baked in at `/app/checkpoints`. You can still mount a volume at `/app/checkpoints` if you want to override them or persist new downloads, but it is no longer strictly required for the base models.
    - **Environment Variables**: You MUST set the following environment variables for S3 upload:
      - `S3_BUCKET_NAME`: The name of your S3 bucket.
      - `AWS_ACCESS_KEY_ID`: Your AWS access key ID.
