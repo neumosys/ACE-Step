@@ -25,13 +25,16 @@ pipeline = ACEStepPipeline(
 )
 print("ACEStepPipeline initialized.")
 
+from botocore.config import Config
+
 # Initialize S3 Client
 s3_client = boto3.client(
     's3',
     aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY"),
     endpoint_url=os.environ.get("S3_ENDPOINT_URL"),
-    region_name=os.environ.get("AWS_REGION", "us-east-1")
+    region_name=os.environ.get("AWS_REGION", "us-east-1"),
+    config=Config(signature_version='s3v4')
 )
 S3_BUCKET_NAME = os.environ.get("S3_BUCKET_NAME")
 

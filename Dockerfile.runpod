@@ -50,10 +50,6 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 # Install the package itself
 RUN pip3 install --no-cache-dir .
 
-# Download models to bake them into the image
-COPY download_models.py /app/download_models.py
-RUN python3 /app/download_models.py && rm /app/download_models.py
-
 # Ensure target directories for volumes exist and have correct initial ownership
 RUN mkdir -p /app/outputs /app/checkpoints /app/logs && \
     chown -R appuser:appuser /app/outputs /app/checkpoints /app/logs
