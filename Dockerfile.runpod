@@ -34,10 +34,10 @@ WORKDIR /app
 # We will copy local files to ensure we have the latest changes including handler.py
 COPY . /app
 
-# Install specific PyTorch version compatible with CUDA 12.6
+# Install specific PyTorch version compatible with CUDA 12.1
 RUN pip3 install --no-cache-dir --upgrade pip && \
     pip3 install --no-cache-dir hf_transfer peft runpod boto3 && \
-    pip3 install --no-cache-dir -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu126
+    pip3 install --no-cache-dir -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu121
 
 # Install the package itself
 RUN pip3 install --no-cache-dir .
