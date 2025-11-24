@@ -25,3 +25,5 @@ peft==0.17.1
 tensorboard
 tensorboardX
 runpod
+hf_transfer
+torchcodec
